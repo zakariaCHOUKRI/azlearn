@@ -1,55 +1,71 @@
+import inspect
 class BaseEstimator:
-    def fit(self, X, y):
-        raise NotImplementedError
-    
-    def predict(self, X):
-        raise NotImplementedError
-    
-    def score(self, X, y):
-        raise NotImplementedError
-    
+
+
+    @classmethod
+    def get_parameters_names(cls):
+
+        constructor_signature = inspect.signature(cls.__init__)
+
+        # Extract parameter names
+        parameter_names = list(constructor_signature.parameters.keys())
+
+        return sorted(parameter_names)
     def get_params(self):
-        raise NotImplementedError
-    
+        """
+        returns dict {name_of_paramater: value_of_parameter}
+        """
+        names_dict =  {}
+        for name in self.get_parameters_names():
+            out[name] = getattr(self, name,None)
+
+        return names_dict
     def set_params(self, **params):
+
         raise NotImplementedError
 
-class BaseClassifier(BaseEstimator):
+
+class Predictor(BaseEstimator):
+
+    def fit(self, X, y):
+        raise NotImplementedError
+
+    def predict(self, X):
+        raise NotImplementedError
+
+    def fit_predict(self, X, y):
+        raise NotImplementedError
+
+
+class Transformer(BaseEstimator):
+
+    def fit(self, X, y):
+        raise NotImplementedError
+
+    def transform(self, X):
+        raise NotImplementedError
+    def fit_transform(self, X, y):
+        raise NotImplementedError
+
+
+class BaseClassifier(Predictor):
     def predict_proba(self, X):
         raise NotImplementedError
 
-class BaseRegressor(BaseEstimator):
+class BaseRegressor(Predictor):
     pass
 
-class BaseCluster(BaseEstimator):
-    def fit_predict(self, X):
+
+class ClassifierMixin :
+    def score(self):
         raise NotImplementedError
 
-class TransformerMixin:
-    def fit_transform(self, X, y=None):
-        raise NotImplementedError
-    
-    def transform(self, X):
-        raise NotImplementedError
-    
-    def inverse_transform(self, X):
+class RegressorMixin:
+
+    def score(self):
         raise NotImplementedError
 
-class BaseCrossValidator:
-    def split(self, X, y=None, groups=None):
-        raise NotImplementedError
-    
-    def get_n_splits(self, X, y=None, groups=None):
-        raise NotImplementedError
 
-class BaseGridSearchCV:
-    def __init__(self, estimator, param_grid, cv=None):
-        self.estimator = estimator
-        self.param_grid = param_grid
-        self.cv = cv
-    
-    def fit(self, X, y):
-        raise NotImplementedError
-    
-    def predict(self, X):
-        raise NotImplementedError
+
+class MetaEstimatorMixin :
+        pass
