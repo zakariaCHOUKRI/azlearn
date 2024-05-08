@@ -48,23 +48,3 @@ class LinearRegression(Predictor, RegressorMixin):
         predictions = X_with_intercept @ np.concatenate(([self.intercept], self.coefficients))
 
         return predictions
-
-
-# Generate synthetic data
-np.random.seed(42)
-X = np.random.rand(20, 1)  # 100 samples, 1 feature
-y = 2 * X.squeeze() + 3 + np.random.randn(20)  # true relationship: y = 2*X + 3 + noise
-
-# Create an instance of LinearRegression
-model = LinearRegression()
-
-# Fit the model to the data
-model.fit(X, y)
-
-# Make predictions on the same data
-y_pred = model.predict(X)
-
-# Print actual vs predicted values
-for i in range(len(y)):
-    print(f"Actual: {y[i]}, Predicted: {y_pred[i]}")
-
