@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(1, '../azlearn')
 
-from linear_model.linear_regression import LinearRegression as MyLinearRegression
+from linear_model.LinearRegression import LinearRegression as MyLinearRegression
 from sklearn.linear_model import LinearRegression as SklearnLinearRegression
 import numpy as np
 
@@ -9,7 +9,6 @@ import numpy as np
 np.random.seed(42)
 X = np.random.rand(20, 1)  # 100 samples, 1 feature
 y = 2 * X.squeeze() + 3 + np.random.randn(20)  # true relationship: y = 2*X + 3 + noise
-
 
 print("comparing linear regression models")
 
