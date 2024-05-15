@@ -149,6 +149,8 @@ class DecisionTreeClassifier(BaseClassifier, ClassifierMixin):
         self : object
             Returns self.
         """
+        self.classes_ = np.unique(y)
+        self.n_classes_ = len(self.classes_)
         self.tree = self._build_tree(X, y)
         return self
 
@@ -210,7 +212,7 @@ class DecisionTreeClassifier(BaseClassifier, ClassifierMixin):
 
         def _predict_proba_sample(x, tree):
             if 'class' in tree:
-                class_probabilities = np.zeros(2)
+                class_probabilities = np.zeros(self.n_classes_)
                 class_probabilities[tree['class']] = 1
                 return class_probabilities
             else:

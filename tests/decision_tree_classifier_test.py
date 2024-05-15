@@ -3,10 +3,10 @@ sys.path.insert(1, '../azlearn')
 
 from tree_model import DecisionTreeClassifier as TreeClassifier
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.datasets import load_breast_cancer
+from sklearn.datasets import load_iris
 
 # Load breast cancer dataset
-data = load_breast_cancer()
+data = load_iris()
 X = data.data
 y = data.target
 

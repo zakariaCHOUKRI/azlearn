@@ -10,6 +10,7 @@ class DecisionTreeRegressor(BaseRegressor, RegressorMixin):
         self.min_samples_split = min_samples_split
         self.min_samples_leaf = min_samples_leaf
         self.tree = None
+        self.feature_importances_ = None  # Add feature importances attribute
 
     def _mse(self, y):
         """
@@ -114,7 +115,7 @@ class DecisionTreeRegressor(BaseRegressor, RegressorMixin):
 
         best_feature_index, best_threshold, max_variance_reduction = self._find_best_split(X, y)
 
-        if max_variance_reduction == 0 or len(y) < 2 * self.min_samples_leaf:
+        if best_threshold is None or max_variance_reduction == 0 or len(y) < 2 * self.min_samples_leaf:
             return {'value': np.mean(y)}
 
         left_mask = X[:, best_feature_index] <= best_threshold
@@ -185,3 +186,55 @@ class DecisionTreeRegressor(BaseRegressor, RegressorMixin):
             raise ValueError("Model has not been trained. Call fit() first.")
 
         return np.array([self._predict_sample(x, self.tree) for x in X])
+
+    def _compute_feature_importances(self, X, y):
+        """
+        Compute feature importances for the decision tree.
+
+        Parameters:
+        X : array-like or sparse matrix of shape (n_samples, n_features)
+            The input samples.
+        y : array-like of shape (n_samples,)
+            The target values.
+
+        Returns:
+        array-like of shape (n_features,)
+            The computed feature importances.
+        """
+        importances = np.zeros(X.shape[1])
+
+        def compute_impurity_reduction(X_col):
+            """
+            Compute the impurity reduction for a given feature.
+
+            Parameters:
+            X_col : array-like of shape (n_samples,)
+                The values of a single feature.
+
+            Returns:
+            float
+                Impurity reduction.
+            """
+            thresholds = np.unique(X_col)
+            best_impurity_reduction = 0
+            best_threshold = None
+
+            for threshold in thresholds:
+                y_left = y[X_col <= threshold]
+                y_right = y[X_col > threshold]
+
+                impurity_reduction = self._variance_reduction(y, y_left, y_right)  # Adjust this based on your impurity measure
+                if impurity_reduction > best_impurity_reduction:
+                    best_impurity_reduction = impurity_reduction
+                    best_threshold = threshold
+
+            return best_impurity_reduction
+
+        for feature_index in range(X.shape[1]):
+            importances[feature_index] = compute_impurity_reduction(X[:, feature_index])
+
+        importances /= np.sum(importances)
+        return importances
+
+
+
