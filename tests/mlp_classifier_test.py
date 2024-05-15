@@ -7,7 +7,7 @@ import numpy as np
 from preprocessing import encoding
 
 # Generate synthetic data
-np.random.seed(42)
+np.random.seed(35)
 X = np.random.rand(20, 2)  # 20 samples, 2 features
 y = np.random.randint(2, size=20)  # binary labels
 
@@ -27,11 +27,11 @@ y_pred = myModel.predict(X)
 y_pred2 = sklModel.predict(X)
 
 print("Comparing predictions:")
-for i in range(len(y)):
+for i in range(min(len(y), 20)):
     print(f"Actual: {y[i]}, Our model: {y_pred[i]}, scikit-learn model: {y_pred2[i]}")
 
 print("\nPredicted probabilities comparison")
 probas = myModel.predict_proba(X)
 probas2 = sklModel.predict_proba(X)
-for i in range(len(y)):
+for i in range(min(len(y), 20)):
     print(f"Our model: {probas[i]}, scikit-learn model: {probas2[i]}")

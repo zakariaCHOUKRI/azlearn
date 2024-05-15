@@ -3,12 +3,12 @@ sys.path.insert(1, '../azlearn')
 
 from linear_model.LinearRegression import LinearRegression as MyLinearRegression
 from sklearn.linear_model import LinearRegression as SklearnLinearRegression
-import numpy as np
+from sklearn.datasets import load_diabetes
 
-# Generate synthetic data
-np.random.seed(42)
-X = np.random.rand(20, 1)  # 100 samples, 1 feature
-y = 2 * X.squeeze() + 3 + np.random.randn(20)  # true relationship: y = 2*X + 3 + noise
+# Load the diabetes dataset
+data = load_diabetes()
+X = data.data  # Using all features
+y = data.target
 
 print("comparing linear regression models")
 
@@ -21,5 +21,5 @@ sklModel.fit(X, y)
 y_pred = myModel.predict(X)
 y_pred2 = sklModel.predict(X)
 
-for i in range(len(y)):
+for i in range(min(len(y), 20)):
     print(f"Actual: {y[i]}, our model: {y_pred[i]}, sklearn model: {y_pred2[i]}")

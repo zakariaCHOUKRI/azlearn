@@ -3,12 +3,12 @@ sys.path.insert(1, '../azlearn')
 
 from tree_model import DecisionTreeRegressor as TreeRegressor
 from sklearn.tree import DecisionTreeRegressor
-import numpy as np
+from sklearn.datasets import load_diabetes
 
-# Generate synthetic data
-np.random.seed(42)
-X = np.random.rand(20, 2)  # 20 samples, 2 features
-y = np.random.rand(20)  # continuous target values
+# Load the diabetes dataset
+data = load_diabetes()
+X = data.data
+y = data.target
 
 # Train decision tree model
 tree_model = TreeRegressor.DecisionTreeRegressor()
@@ -22,5 +22,5 @@ y_pred = tree_model.predict(X)
 y_pred2 = dtree_model.predict(X)
 
 # Print predictions
-for i in range(len(y)):
+for i in range(min(len(y), 20)):
     print(f"Actual: {y[i]}, Our model: {y_pred[i]}, scikit-learn model: {y_pred2[i]}")
