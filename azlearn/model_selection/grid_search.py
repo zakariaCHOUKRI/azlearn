@@ -104,6 +104,6 @@ class GridSearchCV(BaseEstimator, MetaEstimatorMixin):
     Raises:
         AttributeError: If `fit` has not been called yet.
     """
-    if self.cv_results_ is None
+    if self.cv_results_ is None :
         raise AttributeError("GridSearchCV must be fitted before accessing cv_results_")
     return self.cv_results_
