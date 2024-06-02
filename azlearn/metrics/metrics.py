@@ -66,14 +66,13 @@ def recall_score(y_true, y_pred, average='binary'):
     """
     Calculate recall score.
 
-    Parameters:
-        y_true (array-like): Ground truth (correct) target values.
-        y_pred (array-like): Estimated targets as returned by a classifier.
-        average (string, optional): Type of averaging to perform for multiclass. Possible values are
-            - 'binary': Only report results for the class specified by `pos_label`. This is applicable only for binary classification.
-            - 'micro': Calculate metrics globally by counting the total true positives, false negatives and false positives.
-            - 'macro': Calculate metrics for each label, and find their unweighted mean. This does not take class imbalance into account.
-            - 'weighted': Calculate metrics for each label, and find their average weighted by support (the number of true instances for each label).
+    Parameters: y_true (array-like): Ground truth (correct) target values. y_pred (array-like): Estimated targets as
+    returned by a classifier. average (string, optional): Type of averaging to perform for multiclass. Possible
+    values are - 'binary': Only report results for the class specified by `pos_label`. This is applicable only for
+    binary classification. - 'micro': Calculate metrics globally by counting the total true positives,
+    false negatives and false positives. - 'macro': Calculate metrics for each label, and find their unweighted mean.
+    This does not take class imbalance into account. - 'weighted': Calculate metrics for each label, and find their
+    average weighted by support (the number of true instances for each label).
 
     Returns:
         recall (float): The recall score.
@@ -114,14 +113,13 @@ def f1score(y_true, y_pred, average='binary'):
     """
     Calculate F1 score.
 
-    Parameters:
-        y_true (array-like): Ground truth (correct) target values.
-        y_pred (array-like): Estimated targets as returned by a classifier.
-        average (string, optional): Type of averaging to perform. Possible values are
-            - 'binary': Only report results for the class specified by `pos_label`. This is applicable only for binary classification.
-            - 'micro': Calculate metrics globally by counting the total true positives, false negatives and false positives.
-            - 'macro': Calculate metrics for each label, and find their unweighted mean. This does not take class imbalance into account.
-            - 'weighted': Calculate metrics for each label, and find their average weighted by support (the number of true instances for each label).
+    Parameters: y_true (array-like): Ground truth (correct) target values. y_pred (array-like): Estimated targets as
+    returned by a classifier. average (string, optional): Type of averaging to perform. Possible values are -
+    'binary': Only report results for the class specified by `pos_label`. This is applicable only for binary
+    classification. - 'micro': Calculate metrics globally by counting the total true positives, false negatives and
+    false positives. - 'macro': Calculate metrics for each label, and find their unweighted mean. This does not take
+    class imbalance into account. - 'weighted': Calculate metrics for each label, and find their average weighted by
+    support (the number of true instances for each label).
 
     Returns:
         f1 (float): The F1 score.
@@ -134,8 +132,6 @@ def f1score(y_true, y_pred, average='binary'):
     else:
         f1 = 2 * (precision * recall) / (precision + recall)
         return f1
-
-
 
 
 def mean_squared_error(y_true, y_pred):
@@ -184,5 +180,5 @@ def r2_score(y_true, y_pred):
     mean_y_true = sum(y_true) / len(y_true)
     total_sum_of_squares = sum((yt - mean_y_true) ** 2 for yt in y_true)
     residual_sum_of_squares = sum((yt - yp) ** 2 for yt, yp in zip(y_true, y_pred))
-    r2 = 1 - (residual_sum_of_squares / total_sum_of_squares)
+    r2 = 1- (residual_sum_of_squares / total_sum_of_squares)
     return r2
